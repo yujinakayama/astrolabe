@@ -6,7 +6,7 @@ require 'asterisk/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'asterisk'
-  spec.version       = Asterisk::VERSION
+  spec.version       = Asterisk::Version.to_s
   spec.authors       = ['Yuji Nakayama']
   spec.email         = ['nkymyj@gmail.com']
   spec.summary       = 'TODO: Write a short summary. Required.'
