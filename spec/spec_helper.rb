@@ -78,6 +78,10 @@ RSpec.configure do |config|
   end
 end
 
+Dir[File.join(File.dirname(__FILE__), 'support', '*')].each do |path|
+  require path
+end
+
 if ENV['TRAVIS']
   require 'simplecov'
   require 'coveralls'

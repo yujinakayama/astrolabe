@@ -1,0 +1,349 @@
+# coding: utf-8
+
+require 'asterisk/node'
+
+module Asterisk
+  describe Node, :ast do
+    describe '#parent' do
+      let(:source) { <<-END }
+        def some_method(arg_a, arg_b)
+          do_something
+        end
+      END
+
+      # (def :some_method
+      #   (args
+      #     (arg :arg_a)
+      #     (arg :arg_b))
+      #   (send nil :do_something))
+
+      context 'when the node has parent' do
+        let(:target_node) { root_node.each.find(&:args_type?) }
+
+        it 'returns the parent node' do
+          expect(target_node.parent).to be_def_type
+        end
+      end
+
+      context 'when the node does not have parent' do
+        it 'returns nil' do
+          expect(root_node.parent).to be_nil
+        end
+      end
+    end
+
+    shared_context 'ancestor nodes' do
+      let(:source) { <<-END }
+        class SomeClass
+          attr_reader :some_attr
+
+          def some_method(arg_a, arg_b)
+            do_something
+          end
+        end
+      END
+
+      # (class
+      #   (const nil :SomeClass) nil
+      #   (begin
+      #     (send nil :attr_reader
+      #       (sym :some_attr))
+      #     (def :some_method
+      #       (args
+      #         (arg :arg_a)
+      #         (arg :arg_b))
+      #       (send nil :do_something))))
+
+      let(:target_node) { root_node.each.find(&:args_type?) }
+      let(:expected_types) { [:def, :begin, :class] }
+    end
+
+    describe '#each_ancestor' do
+      include_context 'ancestor nodes'
+
+      context 'when a block is given' do
+        it 'yields each ancestor node in order from parent to root' do
+          yielded_types = []
+
+          target_node.each_ancestor do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq(expected_types)
+        end
+
+        it 'returns itself' do
+          returned_value = target_node.each_ancestor {}
+          expect(returned_value).to equal(target_node)
+        end
+      end
+
+      context 'when no block is given' do
+        it 'returns an enumerator' do
+          expect(target_node.each_ancestor).to be_a Enumerator
+        end
+
+        describe 'the returned enumerator' do
+          subject(:enumerator) { target_node.each_ancestor }
+
+          it 'enumerates ancestor nodes' do
+            expected_types.each do |expected_type|
+              expect(enumerator.next.type).to eq(expected_type)
+            end
+
+            expect { enumerator.next }.to raise_error(StopIteration)
+          end
+        end
+      end
+    end
+
+    describe '#ancestors' do
+      include_context 'ancestor nodes'
+
+      it 'returns an array' do
+        expect(target_node.ancestors).to be_an(Array)
+      end
+
+      it 'returns the same nodes as #each_ancestor' do
+        types = target_node.ancestors.map(&:type)
+        expect(types).to eq(expected_types)
+      end
+    end
+
+    shared_context 'child nodes' do
+      let(:source) { <<-END }
+        def some_method(arg_a, arg_b)
+          do_something
+        end
+      END
+
+      # (def :some_method
+      #   (args
+      #     (arg :arg_a)
+      #     (arg :arg_b))
+      #   (send nil :do_something))
+
+      let(:target_node) { root_node.each.find(&:def_type?) }
+      let(:expected_types) { [:args, :send] }
+    end
+
+    describe '#each_child_node' do
+      include_context 'child nodes'
+
+      context 'when a block is given' do
+        it 'yields each child node' do
+          yielded_types = []
+
+          target_node.each_child_node do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq(expected_types)
+        end
+
+        it 'returns itself' do
+          returned_value = target_node.each_child_node {}
+          expect(returned_value).to equal(target_node)
+        end
+      end
+
+      context 'when no block is given' do
+        it 'returns an enumerator' do
+          expect(target_node.each_child_node).to be_a(Enumerator)
+        end
+
+        describe 'the returned enumerator' do
+          subject(:enumerator) { target_node.each_child_node }
+
+          it 'enumerates the child nodes' do
+            expected_types.each do |expected_type|
+              expect(enumerator.next.type).to eq(expected_type)
+            end
+
+            expect { enumerator.next }.to raise_error(StopIteration)
+          end
+        end
+      end
+    end
+
+    describe '#child_nodes' do
+      include_context 'child nodes'
+
+      it 'returns an array' do
+        expect(root_node.child_nodes).to be_an(Array)
+      end
+
+      it 'returns same nodes as #each_child_node' do
+        types = target_node.child_nodes.map(&:type)
+        expect(types).to eq(expected_types)
+      end
+    end
+
+    shared_context 'descendent nodes' do
+      let(:source) { <<-END }
+        class SomeClass
+          attr_reader :some_attr
+
+          def some_method(arg_a, arg_b)
+            do_something
+          end
+        end
+      END
+
+      # (class
+      #   (const nil :SomeClass) nil
+      #   (begin
+      #     (send nil :attr_reader
+      #       (sym :some_attr))
+      #     (def :some_method
+      #       (args
+      #         (arg :arg_a)
+      #         (arg :arg_b))
+      #       (send nil :do_something))))
+
+      let(:target_node) { root_node }
+      let(:expected_types) { [:const, :begin, :send, :sym, :def, :args, :arg, :arg, :send] }
+    end
+
+    describe '#each_descendent' do
+      include_context 'descendent nodes'
+
+      context 'when a block is given' do
+        it 'yields each descendent node with depth first order' do
+          yielded_types = []
+
+          target_node.each_descendent do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq(expected_types)
+        end
+
+        it 'returns itself' do
+          returned_value = target_node.each_descendent {}
+          expect(returned_value).to equal(target_node)
+        end
+      end
+
+      context 'when no block is given' do
+        it 'returns an enumerator' do
+          expect(target_node.each_descendent).to be_a(Enumerator)
+        end
+
+        describe 'the returned enumerator' do
+          subject(:enumerator) { target_node.each_descendent }
+
+          it 'enumerates the descendent nodes' do
+            expected_types.each do |expected_type|
+              expect(enumerator.next.type).to eq(expected_type)
+            end
+
+            expect { enumerator.next }.to raise_error(StopIteration)
+          end
+        end
+      end
+    end
+
+    describe '#descendents' do
+      include_context 'descendent nodes'
+
+      it 'returns an array' do
+        expect(target_node.descendents).to be_an(Array)
+      end
+
+      it 'returns same nodes as #each_descendent' do
+        types = target_node.descendents.map(&:type)
+        expect(types).to eq(expected_types)
+      end
+    end
+
+    describe '#each_node' do
+      let(:source) { <<-END }
+        class SomeClass
+          attr_reader :some_attr
+
+          def some_method(arg_a, arg_b)
+            do_something
+          end
+        end
+      END
+
+      # (class
+      #   (const nil :SomeClass) nil
+      #   (begin
+      #     (send nil :attr_reader
+      #       (sym :some_attr))
+      #     (def :some_method
+      #       (args
+      #         (arg :arg_a)
+      #         (arg :arg_b))
+      #       (send nil :do_something))))
+
+      let(:target_node) { root_node }
+      let(:expected_types) { [:class, :const, :begin, :send, :sym, :def, :args, :arg, :arg, :send] }
+
+      context 'when a block is given' do
+        it 'yields itself and each descendent node with depth first order' do
+          yielded_types = []
+
+          target_node.each do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq(expected_types)
+        end
+
+        it 'returns itself' do
+          returned_value = target_node.each {}
+          expect(returned_value).to equal(target_node)
+        end
+      end
+
+      context 'when no block is given' do
+        it 'returns an enumerator' do
+          expect(target_node.each).to be_a(Enumerator)
+        end
+
+        describe 'the returned enumerator' do
+          subject(:enumerator) { target_node.each }
+
+          it 'enumerates the origin and the descendent nodes' do
+            expected_types.each do |expected_type|
+              expect(enumerator.next.type).to eq(expected_type)
+            end
+
+            expect { enumerator.next }.to raise_error(StopIteration)
+          end
+        end
+      end
+    end
+
+    describe '#send_type?' do
+      subject { root_node.send_type? }
+
+      context 'when the node is send type' do
+        let(:source) { 'do_something' }
+        it { is_expected.to be true }
+      end
+
+      context 'when the node is not send type' do
+        let(:source) { 'foo = 1' }
+        it { is_expected.to be false }
+      end
+    end
+
+    describe '#defined_type?' do
+      subject { root_node.defined_type? }
+
+      context 'when the node is defined? type' do
+        let(:source) { 'defined?(Foo)' }
+        it { is_expected.to be true }
+      end
+
+      context 'when the node is not defined? type' do
+        let(:source) { 'foo = 1' }
+        it { is_expected.to be false }
+      end
+    end
+  end
+end
