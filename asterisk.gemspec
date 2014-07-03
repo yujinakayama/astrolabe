@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['nkymyj@gmail.com']
   spec.summary       = 'Object-oriented AST for Parser'
   spec.description   = spec.summary
-  spec.homepage      = ''
+  spec.homepage      = 'https://github.com/yujinakayama/asterisk'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
