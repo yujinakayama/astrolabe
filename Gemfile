@@ -2,5 +2,8 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in asterisk.gemspec
 gemspec
+
+group :test do
+  gem 'coveralls', '~> 0.7'
+end
