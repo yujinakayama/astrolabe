@@ -1,3 +1,9 @@
+[![Gem Version](http://img.shields.io/gem/v/asterisk.svg)](http://badge.fury.io/rb/asterisk)
+[![Dependency Status](http://img.shields.io/gemnasium/yujinakayama/asterisk.svg)](https://gemnasium.com/yujinakayama/asterisk)
+[![Build Status](https://travis-ci.org/yujinakayama/asterisk.svg?branch=master)](https://travis-ci.org/yujinakayama/asterisk)
+[![Coverage Status](http://img.shields.io/coveralls/yujinakayama/asterisk/master.svg)](https://coveralls.io/r/yujinakayama/asterisk)
+[![Code Climate](http://img.shields.io/codeclimate/github/yujinakayama/asterisk.svg)](https://codeclimate.com/github/yujinakayama/asterisk)
+
 # Asterisk
 
 TODO: Write a gem description
