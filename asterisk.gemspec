@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.version       = Asterisk::Version.to_s
   spec.authors       = ['Yuji Nakayama']
   spec.email         = ['nkymyj@gmail.com']
-  spec.summary       = 'TODO: Write a short summary. Required.'
-  spec.description   = 'TODO: Write a longer description. Optional.'
+  spec.summary       = 'Object-oriented AST for Parser'
+  spec.description   = spec.summary
   spec.homepage      = ''
   spec.license       = 'MIT'
 
