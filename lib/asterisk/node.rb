@@ -80,22 +80,22 @@ module Asterisk
       self
     end
 
-    # Calls the given block for each descendent node with depth first order.
+    # Calls the given block for each descendant node with depth first order.
     # If no block is given, an `Enumerator` is returned.
     #
-    # @yieldparam [Node] node each descendent node
+    # @yieldparam [Node] node each descendant node
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
-    def each_descendent(&block)
+    def each_descendant(&block)
       return to_enum(__method__) unless block_given?
 
       each_child_node do |child_node|
         yield child_node
-        child_node.each_descendent(&block)
+        child_node.each_descendant(&block)
       end
     end
 
-    # Calls the given block for the receiver and each descendent node with depth first order.
+    # Calls the given block for the receiver and each descendant node with depth first order.
     # If no block is given, an `Enumerator` is returned.
     #
     # This method is convenient when you treat the receiver node as a root of tree and want to
@@ -107,7 +107,7 @@ module Asterisk
     def each(&block)
       return to_enum(__method__) unless block_given?
       yield self
-      each_descendent(&block)
+      each_descendant(&block)
     end
 
     # Returns whether the receiver is a root node or not.

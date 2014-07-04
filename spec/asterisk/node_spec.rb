@@ -145,7 +145,7 @@ module Asterisk
       end
     end
 
-    describe '#each_descendent' do
+    describe '#each_descendant' do
       let(:source) { <<-END }
         class SomeClass
           attr_reader :some_attr
@@ -171,10 +171,10 @@ module Asterisk
       let(:expected_types) { [:const, :begin, :send, :sym, :def, :args, :arg, :arg, :send] }
 
       context 'when a block is given' do
-        it 'yields each descendent node with depth first order' do
+        it 'yields each descendant node with depth first order' do
           yielded_types = []
 
-          target_node.each_descendent do |node|
+          target_node.each_descendant do |node|
             yielded_types << node.type
           end
 
@@ -182,20 +182,20 @@ module Asterisk
         end
 
         it 'returns itself' do
-          returned_value = target_node.each_descendent {}
+          returned_value = target_node.each_descendant {}
           expect(returned_value).to equal(target_node)
         end
       end
 
       context 'when no block is given' do
         it 'returns an enumerator' do
-          expect(target_node.each_descendent).to be_a(Enumerator)
+          expect(target_node.each_descendant).to be_a(Enumerator)
         end
 
         describe 'the returned enumerator' do
-          subject(:enumerator) { target_node.each_descendent }
+          subject(:enumerator) { target_node.each_descendant }
 
-          it 'enumerates the descendent nodes' do
+          it 'enumerates the descendant nodes' do
             expected_types.each do |expected_type|
               expect(enumerator.next.type).to eq(expected_type)
             end
@@ -232,7 +232,7 @@ module Asterisk
       let(:expected_types) { [:class, :const, :begin, :send, :sym, :def, :args, :arg, :arg, :send] }
 
       context 'when a block is given' do
-        it 'yields itself and each descendent node with depth first order' do
+        it 'yields itself and each descendant node with depth first order' do
           yielded_types = []
 
           target_node.each do |node|
@@ -256,7 +256,7 @@ module Asterisk
         describe 'the returned enumerator' do
           subject(:enumerator) { target_node.each }
 
-          it 'enumerates the origin and the descendent nodes' do
+          it 'enumerates the origin and the descendant nodes' do
             expected_types.each do |expected_type|
               expect(enumerator.next.type).to eq(expected_type)
             end
