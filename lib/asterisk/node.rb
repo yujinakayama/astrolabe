@@ -5,6 +5,19 @@ require 'parser'
 module Asterisk
   # `Asterisk::Node` is a subclass of `Parser::AST::Node`. It provides an access to parent node and
   # an object-oriented way to handle AST with the power of `Enumerable`.
+  #
+  # Though not described in the auto-generated API documentation, it has predicate methods for every
+  # node type. These methods are useful when combined with `Enumerable` methods.
+  #
+  # @example
+  #   node.send_type?    # Equivalent to: `node.type == :send`
+  #   node.op_asgn_type? # Equivalent to: `node.type == :op_asgn`
+  #
+  #   # Non-word characters (other than a-zA-Z0-9_) in type names are omitted.
+  #   node.defined_type? # Equivalent to: `node.type == :defined?`
+  #
+  #   # Collect all lvar nodes under the receiver node.
+  #   lvar_nodes = node.each_descendant.select(&:lvar_type?)
   class Node < Parser::AST::Node
     # @see http://rubydoc.info/gems/ast/AST/Node:initialize
     def initialize(type, children = [], properties = {})
