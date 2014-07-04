@@ -270,12 +270,12 @@ module Asterisk
     describe '#send_type?' do
       subject { root_node.send_type? }
 
-      context 'when the node is send type' do
+      context 'with send type node' do
         let(:source) { 'do_something' }
         it { is_expected.to be true }
       end
 
-      context 'when the node is not send type' do
+      context 'with non-send type node' do
         let(:source) { 'foo = 1' }
         it { is_expected.to be false }
       end
@@ -284,12 +284,12 @@ module Asterisk
     describe '#defined_type?' do
       subject { root_node.defined_type? }
 
-      context 'when the node is defined? type' do
+      context 'with defined? type node' do
         let(:source) { 'defined?(Foo)' }
         it { is_expected.to be true }
       end
 
-      context 'when the node is not defined? type' do
+      context 'non-defined? type node' do
         let(:source) { 'foo = 1' }
         it { is_expected.to be false }
       end
