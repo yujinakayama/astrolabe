@@ -1,19 +1,19 @@
-[![Gem Version](http://img.shields.io/gem/v/asterisk.svg)](http://badge.fury.io/rb/asterisk)
-[![Dependency Status](http://img.shields.io/gemnasium/yujinakayama/asterisk.svg)](https://gemnasium.com/yujinakayama/asterisk)
-[![Build Status](https://travis-ci.org/yujinakayama/asterisk.svg?branch=master)](https://travis-ci.org/yujinakayama/asterisk)
-[![Coverage Status](http://img.shields.io/coveralls/yujinakayama/asterisk/master.svg)](https://coveralls.io/r/yujinakayama/asterisk)
-[![Code Climate](http://img.shields.io/codeclimate/github/yujinakayama/asterisk.svg)](https://codeclimate.com/github/yujinakayama/asterisk)
+[![Gem Version](http://img.shields.io/gem/v/astrolabe.svg)](http://badge.fury.io/rb/astrolabe)
+[![Dependency Status](http://img.shields.io/gemnasium/yujinakayama/astrolabe.svg)](https://gemnasium.com/yujinakayama/astrolabe)
+[![Build Status](https://travis-ci.org/yujinakayama/astrolabe.svg?branch=master)](https://travis-ci.org/yujinakayama/astrolabe)
+[![Coverage Status](http://img.shields.io/coveralls/yujinakayama/astrolabe/master.svg)](https://coveralls.io/r/yujinakayama/astrolabe)
+[![Code Climate](http://img.shields.io/codeclimate/github/yujinakayama/astrolabe.svg)](https://codeclimate.com/github/yujinakayama/astrolabe)
 
-# Asterisk
+# Astrolabe
 
-**Asterisk** is an AST node library that provides an object-oriented way to handle AST by extending [Parser](https://github.com/whitequark/parser)'s node class.
+**Astrolabe** is an AST node library that provides an object-oriented way to handle AST by extending [Parser](https://github.com/whitequark/parser)'s node class.
 
 ## Installation
 
 Add this line to your `Gemfile`:
 
 ```ruby
-gem 'asterisk'
+gem 'astrolabe'
 ```
 
 And then execute:
@@ -24,30 +24,30 @@ $ bundle install
 
 ## Usage
 
-You can generate an AST that consists of `Asterisk::Node` by using `Asterisk::Builder` along with `Parser`:
+You can generate an AST that consists of `Astrolabe::Node` by using `Astrolabe::Builder` along with `Parser`:
 
 ```ruby
-require 'asterisk/builder'
+require 'astrolabe/builder'
 require 'parser/current'
 
 buffer = Parser::Source::Buffer.new('(string)')
 buffer.source = 'puts :foo'
 
-builder = Asterisk::Builder.new
+builder = Astrolabe::Builder.new
 parser = Parser::CurrentRuby.new(builder)
 
 root_node = parser.parse(buffer)
-root_node.class # => Asterisk::Node
+root_node.class # => Astrolabe::Node
 ```
 
-`Asterisk::Node` is a subclass of [`Parser::AST::Node`](http://rubydoc.info/gems/parser/Parser/AST/Node).
+`Astrolabe::Node` is a subclass of [`Parser::AST::Node`](http://rubydoc.info/gems/parser/Parser/AST/Node).
 
 ## APIs
 
 See these references for all the public APIs:
 
-* [`Asterisk::Node`](http://rubydoc.info/gems/asterisk/Asterisk/Node)
-* [`Asterisk::Builder`](http://rubydoc.info/gems/asterisk/Asterisk/Builder)
+* [`Astrolabe::Node`](http://rubydoc.info/gems/astrolabe/Astrolabe/Node)
+* [`Astrolabe::Builder`](http://rubydoc.info/gems/astrolabe/Astrolabe/Builder)
 
 ### Node Type Predicate Methods
 

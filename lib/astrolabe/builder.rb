@@ -1,20 +1,20 @@
 # coding: utf-8
 
-require 'asterisk/node'
+require 'astrolabe/node'
 require 'parser'
 
-module Asterisk
-  # `Asterisk::Builder` is an AST builder that is utilized to let `Parser` generate AST with
-  # {Asterisk::Node}.
+module Astrolabe
+  # `Astrolabe::Builder` is an AST builder that is utilized to let `Parser` generate AST with
+  # {Astrolabe::Node}.
   #
   # @example
-  #   require 'asterisk/builder'
+  #   require 'astrolabe/builder'
   #   require 'parser/current'
   #
   #   buffer = Parser::Source::Buffer.new('(string)')
   #   buffer.source = 'puts :foo'
   #
-  #   builder = Asterisk::Builder.new
+  #   builder = Astrolabe::Builder.new
   #   parser = Parser::CurrentRuby.new(builder)
   #   root_node = parser.parse(buffer)
   class Builder < Parser::Builders::Default

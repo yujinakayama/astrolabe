@@ -1,8 +1,8 @@
 # coding: utf-8
 
-require 'asterisk/node'
+require 'astrolabe/node'
 
-module Asterisk
+module Astrolabe
   describe Node, :ast do
     describe '#parent' do
       let(:source) { <<-END }

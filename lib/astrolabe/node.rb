@@ -2,8 +2,8 @@
 
 require 'parser'
 
-module Asterisk
-  # `Asterisk::Node` is a subclass of `Parser::AST::Node`. It provides an access to parent node and
+module Astrolabe
+  # `Astrolabe::Node` is a subclass of `Parser::AST::Node`. It provides an access to parent node and
   # an object-oriented way to handle AST with the power of `Enumerable`.
   #
   # Though not described in the auto-generated API documentation, it has predicate methods for every

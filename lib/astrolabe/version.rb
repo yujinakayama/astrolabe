@@ -1,6 +1,6 @@
 # coding: utf-8
 
-module Asterisk
+module Astrolabe
   # @api private
   # http://semver.org/
   module Version

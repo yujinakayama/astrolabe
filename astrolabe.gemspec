@@ -2,16 +2,16 @@
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'asterisk/version'
+require 'astrolabe/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'asterisk'
-  spec.version       = Asterisk::Version.to_s
+  spec.name          = 'astrolabe'
+  spec.version       = Astrolabe::Version.to_s
   spec.authors       = ['Yuji Nakayama']
   spec.email         = ['nkymyj@gmail.com']
-  spec.summary       = 'Object-oriented AST for Parser'
+  spec.summary       = 'Object-oriented AST library for Parser'
   spec.description   = spec.summary
-  spec.homepage      = 'https://github.com/yujinakayama/asterisk'
+  spec.homepage      = 'https://github.com/yujinakayama/astrolabe'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files -z`.split("\x0")
