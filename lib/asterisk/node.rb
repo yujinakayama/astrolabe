@@ -43,6 +43,13 @@ module Asterisk
 
     protected :parent=
 
+    # Returns whether the receiver is a root node or not.
+    #
+    # @return [Boolean] whether the receiver is a root node or not
+    def root?
+      parent.nil?
+    end
+
     # Calls the given block for each ancestor node in the order from parent to root.
     # If no block is given, an `Enumerator` is returned.
     #
@@ -108,13 +115,6 @@ module Asterisk
       return to_enum(__method__) unless block_given?
       yield self
       each_descendant(&block)
-    end
-
-    # Returns whether the receiver is a root node or not.
-    #
-    # @return [Boolean] whether the receiver is a root node or not
-    def root?
-      parent.nil?
     end
   end
 end
