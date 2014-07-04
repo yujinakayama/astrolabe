@@ -1,6 +1,7 @@
 # coding: utf-8
 
 module Asterisk
+  # @api private
   # http://semver.org/
   module Version
     MAJOR = 0
