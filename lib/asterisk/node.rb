@@ -68,5 +68,9 @@ module Asterisk
       yield self
       each_descendent(&block)
     end
+
+    def root?
+      parent.nil?
+    end
   end
 end

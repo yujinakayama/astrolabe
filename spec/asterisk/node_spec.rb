@@ -294,5 +294,25 @@ module Asterisk
         it { is_expected.to be false }
       end
     end
+
+    describe '#root?' do
+      let(:source) { <<-END }
+        def some_method
+          do_something
+        end
+      END
+
+      subject { target_node.root? }
+
+      context 'with root node' do
+        let(:target_node) { root_node }
+        it { is_expected.to be true }
+      end
+
+      context 'with non-root node' do
+        let(:target_node) { root_node.each_child_node.to_a.first }
+        it { is_expected.to be false }
+      end
+    end
   end
 end
