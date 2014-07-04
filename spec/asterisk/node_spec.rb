@@ -32,7 +32,7 @@ module Asterisk
       end
     end
 
-    shared_context 'ancestor nodes' do
+    describe '#each_ancestor' do
       let(:source) { <<-END }
         class SomeClass
           attr_reader :some_attr
@@ -56,10 +56,6 @@ module Asterisk
 
       let(:target_node) { root_node.each.find(&:args_type?) }
       let(:expected_types) { [:def, :begin, :class] }
-    end
-
-    describe '#each_ancestor' do
-      include_context 'ancestor nodes'
 
       context 'when a block is given' do
         it 'yields each ancestor node in order from parent to root' do
@@ -97,20 +93,7 @@ module Asterisk
       end
     end
 
-    describe '#ancestors' do
-      include_context 'ancestor nodes'
-
-      it 'returns an array' do
-        expect(target_node.ancestors).to be_an(Array)
-      end
-
-      it 'returns the same nodes as #each_ancestor' do
-        types = target_node.ancestors.map(&:type)
-        expect(types).to eq(expected_types)
-      end
-    end
-
-    shared_context 'child nodes' do
+    describe '#each_child_node' do
       let(:source) { <<-END }
         def some_method(arg_a, arg_b)
           do_something
@@ -125,10 +108,6 @@ module Asterisk
 
       let(:target_node) { root_node.each.find(&:def_type?) }
       let(:expected_types) { [:args, :send] }
-    end
-
-    describe '#each_child_node' do
-      include_context 'child nodes'
 
       context 'when a block is given' do
         it 'yields each child node' do
@@ -166,20 +145,7 @@ module Asterisk
       end
     end
 
-    describe '#child_nodes' do
-      include_context 'child nodes'
-
-      it 'returns an array' do
-        expect(root_node.child_nodes).to be_an(Array)
-      end
-
-      it 'returns same nodes as #each_child_node' do
-        types = target_node.child_nodes.map(&:type)
-        expect(types).to eq(expected_types)
-      end
-    end
-
-    shared_context 'descendent nodes' do
+    describe '#each_descendent' do
       let(:source) { <<-END }
         class SomeClass
           attr_reader :some_attr
@@ -203,10 +169,6 @@ module Asterisk
 
       let(:target_node) { root_node }
       let(:expected_types) { [:const, :begin, :send, :sym, :def, :args, :arg, :arg, :send] }
-    end
-
-    describe '#each_descendent' do
-      include_context 'descendent nodes'
 
       context 'when a block is given' do
         it 'yields each descendent node with depth first order' do
@@ -241,19 +203,6 @@ module Asterisk
             expect { enumerator.next }.to raise_error(StopIteration)
           end
         end
-      end
-    end
-
-    describe '#descendents' do
-      include_context 'descendent nodes'
-
-      it 'returns an array' do
-        expect(target_node.descendents).to be_an(Array)
-      end
-
-      it 'returns same nodes as #each_descendent' do
-        types = target_node.descendents.map(&:type)
-        expect(types).to eq(expected_types)
       end
     end
 

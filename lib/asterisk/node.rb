@@ -43,10 +43,6 @@ module Asterisk
       self
     end
 
-    def ancestors
-      each_ancestor.to_a
-    end
-
     def each_child_node
       return to_enum(__method__) unless block_given?
 
@@ -58,10 +54,6 @@ module Asterisk
       self
     end
 
-    def child_nodes
-      each_child_node.to_a
-    end
-
     def each_descendent(&block)
       return to_enum(__method__) unless block_given?
 
@@ -69,10 +61,6 @@ module Asterisk
         yield child_node
         child_node.each_descendent(&block)
       end
-    end
-
-    def descendents
-      each_descendent.to_a
     end
 
     def each(&block)
