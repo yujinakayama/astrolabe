@@ -111,7 +111,7 @@ module Asterisk
     # @yieldparam [Node] node each node
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
-    def each(&block)
+    def each_node(&block)
       return to_enum(__method__) unless block_given?
       yield self
       each_descendant(&block)

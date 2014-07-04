@@ -18,7 +18,7 @@ module Asterisk
       #   (send nil :do_something))
 
       context 'when the node has parent' do
-        let(:target_node) { root_node.each.find(&:args_type?) }
+        let(:target_node) { root_node.each_node.find(&:args_type?) }
 
         it 'returns the parent node' do
           expect(target_node.parent).to be_def_type
@@ -74,7 +74,7 @@ module Asterisk
       #         (arg :arg_b))
       #       (send nil :do_something))))
 
-      let(:target_node) { root_node.each.find(&:args_type?) }
+      let(:target_node) { root_node.each_node.find(&:args_type?) }
       let(:expected_types) { [:def, :begin, :class] }
 
       context 'when a block is given' do
@@ -126,7 +126,7 @@ module Asterisk
       #     (arg :arg_b))
       #   (send nil :do_something))
 
-      let(:target_node) { root_node.each.find(&:def_type?) }
+      let(:target_node) { root_node.each_node.find(&:def_type?) }
       let(:expected_types) { [:args, :send] }
 
       context 'when a block is given' do
@@ -255,7 +255,7 @@ module Asterisk
         it 'yields itself and each descendant node with depth first order' do
           yielded_types = []
 
-          target_node.each do |node|
+          target_node.each_node do |node|
             yielded_types << node.type
           end
 
@@ -263,18 +263,18 @@ module Asterisk
         end
 
         it 'returns itself' do
-          returned_value = target_node.each {}
+          returned_value = target_node.each_node {}
           expect(returned_value).to equal(target_node)
         end
       end
 
       context 'when no block is given' do
         it 'returns an enumerator' do
-          expect(target_node.each).to be_a(Enumerator)
+          expect(target_node.each_node).to be_a(Enumerator)
         end
 
         describe 'the returned enumerator' do
-          subject(:enumerator) { target_node.each }
+          subject(:enumerator) { target_node.each_node }
 
           it 'enumerates the origin and the descendant nodes' do
             expected_types.each do |expected_type|
