@@ -17,7 +17,7 @@ module Astrolabe
       #     (arg :arg_b))
       #   (send nil :do_something))
 
-      context 'when the node has parent' do
+      context 'with a non-root node' do
         let(:target_node) { root_node.each_node.find(&:args_type?) }
 
         it 'returns the parent node' do
@@ -25,7 +25,7 @@ module Astrolabe
         end
       end
 
-      context 'when the node does not have parent' do
+      context 'with a root node' do
         it 'returns nil' do
           expect(root_node.parent).to be_nil
         end
