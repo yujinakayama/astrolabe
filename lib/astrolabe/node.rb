@@ -69,13 +69,14 @@ module Astrolabe
     # @yieldparam [Node] node each ancestor node
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
-    def each_ancestor
+    def each_ancestor(*types)
       return to_enum(__method__) unless block_given?
 
+      types.flatten!
       last_node = self
 
       while (current_node = last_node.parent)
-        yield current_node
+        yield current_node if types.empty? || types.include?(current_node.type)
         last_node = current_node
       end
 
@@ -91,12 +92,14 @@ module Astrolabe
     # @yieldparam [Node] node each child node
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
-    def each_child_node
+    def each_child_node(*types)
       return to_enum(__method__) unless block_given?
+
+      types.flatten!
 
       children.each do |child|
         next unless child.is_a?(Node)
-        yield child
+        yield child if types.empty? || types.include?(child.type)
       end
 
       self
@@ -108,9 +111,10 @@ module Astrolabe
     # @yieldparam [Node] node each descendant node
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
-    def each_descendant(&block)
+    def each_descendant(*types, &block)
       return to_enum(__method__) unless block_given?
-      visit_descendants(&block)
+      types.flatten!
+      visit_descendants(types, &block)
       self
     end
 
@@ -123,19 +127,20 @@ module Astrolabe
     # @yieldparam [Node] node each node
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
-    def each_node(&block)
+    def each_node(*types, &block)
       return to_enum(__method__) unless block_given?
-      yield self
-      each_descendant(&block)
+      types.flatten!
+      yield self if types.empty? || types.include?(type)
+      each_descendant(*types, &block)
     end
 
     protected
 
-    def visit_descendants(&block)
+    def visit_descendants(types, &block)
       children.each do |child|
         next unless child.is_a?(Node)
-        yield child
-        child.visit_descendants(&block)
+        yield child if types.empty? || types.include?(child.type)
+        child.visit_descendants(types, &block)
       end
     end
   end

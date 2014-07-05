@@ -67,9 +67,10 @@ describe 'performance' do
           def each_descendant
             return to_enum(__method__) unless block_given?
 
-            each_child_node do |child_node|
-              yield child_node
-              child_node.each_descendant { |node| yield node }
+            children.each do |child|
+              next unless child.is_a?(self.class)
+              yield child
+              child.each_descendant { |node| yield node }
             end
           end
         end
@@ -82,9 +83,10 @@ describe 'performance' do
           def each_descendant(&block)
             return to_enum(__method__) unless block_given?
 
-            each_child_node do |child_node|
-              yield child_node
-              child_node.each_descendant(&block)
+            children.each do |child|
+              next unless child.is_a?(self.class)
+              yield child
+              child.each_descendant(&block)
             end
           end
         end
@@ -100,9 +102,10 @@ describe 'performance' do
 
             proc_object ||= block
 
-            each_child_node do |child_node|
-              proc_object.call(child_node)
-              child_node.each_descendant(proc_object)
+            children.each do |child|
+              next unless child.is_a?(self.class)
+              proc_object.call(child)
+              child.each_descendant(proc_object)
             end
           end
         end

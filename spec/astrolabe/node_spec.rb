@@ -115,6 +115,42 @@ module Astrolabe
       end
 
       include_examples 'node enumerator', :each_ancestor
+
+      context 'when a node type symbol is passed' do
+        it 'scans all the ancestor nodes but yields only nodes matching the type' do
+          yielded_types = []
+
+          target_node.each_ancestor(:begin) do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq([:begin])
+        end
+      end
+
+      context 'when multiple node type symbols are passed' do
+        it 'scans all the ancestor nodes but yields only nodes matching any of the types' do
+          yielded_types = []
+
+          target_node.each_ancestor(:begin, :def) do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq([:def, :begin])
+        end
+      end
+
+      context 'when an array including type symbols are passed' do
+        it 'scans all the ancestor nodes but yields only nodes matching any of the types' do
+          yielded_types = []
+
+          target_node.each_ancestor([:begin, :def]) do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq([:def, :begin])
+        end
+      end
     end
 
     describe '#each_child_node' do
@@ -151,6 +187,42 @@ module Astrolabe
       end
 
       include_examples 'node enumerator', :each_child_node
+
+      context 'when a node type symbol is passed' do
+        it 'scans all the child nodes but yields only nodes matching the type' do
+          yielded_types = []
+
+          target_node.each_child_node(:send) do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq([:send])
+        end
+      end
+
+      context 'when multiple node type symbols are passed' do
+        it 'scans all the child nodes but yields only nodes matching any of the types' do
+          yielded_types = []
+
+          target_node.each_child_node(:send, :args) do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq([:args, :send])
+        end
+      end
+
+      context 'when an array including type symbols are passed' do
+        it 'scans all the child nodes but yields only nodes matching any of the types' do
+          yielded_types = []
+
+          target_node.each_child_node([:send, :args]) do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq([:args, :send])
+        end
+      end
     end
 
     describe '#each_descendant' do
@@ -196,6 +268,42 @@ module Astrolabe
       end
 
       include_examples 'node enumerator', :each_descendant
+
+      context 'when a node type symbol is passed' do
+        it 'scans all the descendant nodes but yields only nodes matching the type' do
+          yielded_types = []
+
+          target_node.each_descendant(:send) do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq([:send, :send])
+        end
+      end
+
+      context 'when multiple node type symbols are passed' do
+        it 'scans all the descendant nodes but yields only nodes matching any of the types' do
+          yielded_types = []
+
+          target_node.each_descendant(:send, :def) do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq([:send, :def, :send])
+        end
+      end
+
+      context 'when an array including type symbols are passed' do
+        it 'scans all the descendant nodes but yields only nodes matching any of the types' do
+          yielded_types = []
+
+          target_node.each_descendant([:send, :def]) do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq([:send, :def, :send])
+        end
+      end
     end
 
     describe '#each_node' do
@@ -224,7 +332,7 @@ module Astrolabe
       let(:expected_types) { [:class, :const, :begin, :send, :sym, :def, :args, :arg, :arg, :send] }
 
       context 'when a block is given' do
-        it 'yields itself and each descendant node with depth first order' do
+        it 'yields the node itself and each descendant node with depth first order' do
           yielded_types = []
 
           target_node.each_node do |node|
@@ -241,6 +349,42 @@ module Astrolabe
       end
 
       include_examples 'node enumerator', :each_node
+
+      context 'when a node type symbol is passed' do
+        it 'scans all the nodes but yields only nodes matching the type' do
+          yielded_types = []
+
+          target_node.each_node(:send) do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq([:send, :send])
+        end
+      end
+
+      context 'when multiple node type symbols are passed' do
+        it 'scans all the nodes but yields only nodes matching any of the types' do
+          yielded_types = []
+
+          target_node.each_node(:send, :def) do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq([:send, :def, :send])
+        end
+      end
+
+      context 'when an array including type symbols are passed' do
+        it 'scans all the nodes but yields only nodes matching any of the types' do
+          yielded_types = []
+
+          target_node.each_node([:send, :def]) do |node|
+            yielded_types << node.type
+          end
+
+          expect(yielded_types).to eq([:send, :def, :send])
+        end
+      end
     end
 
     describe '#send_type?' do
