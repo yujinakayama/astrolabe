@@ -69,12 +69,14 @@ module Astrolabe
     # @yieldparam [Node] node each ancestor node
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
-    def each_ancestor(&block)
+    def each_ancestor
       return to_enum(__method__) unless block_given?
 
-      if parent
-        yield parent
-        parent.each_ancestor(&block)
+      last_node = self
+
+      while (current_node = last_node.parent)
+        yield current_node
+        last_node = current_node
       end
 
       self
@@ -109,10 +111,13 @@ module Astrolabe
     def each_descendant(&block)
       return to_enum(__method__) unless block_given?
 
-      each_child_node do |child_node|
-        yield child_node
-        child_node.each_descendant(&block)
+      children.each do |child|
+        next unless child.is_a?(Node)
+        yield child
+        child.each_descendant(&block)
       end
+
+      self
     end
 
     # Calls the given block for the receiver and each descendant node with depth first order.
