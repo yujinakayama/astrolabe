@@ -5,6 +5,7 @@ require 'astrolabe/node'
 require 'parser/current'
 
 describe 'performance' do
+  Benchmarking.warm_up = true
   Benchmarking.loop_count = 1000
 
   def generate_source(max, current_nest_level = 1)

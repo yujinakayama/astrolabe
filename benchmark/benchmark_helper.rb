@@ -2,6 +2,8 @@
 
 class Benchmarking
   class << self
+    attr_accessor :warm_up
+    alias_method :warm_up?, :warm_up
     attr_writer :loop_count
 
     def loop_count
@@ -26,6 +28,8 @@ class Benchmarking
 
   def time
     return @time if @time
+
+    self.class.loop_count.times { run } if self.class.warm_up?
 
     beginning = Time.now
     self.class.loop_count.times { run }
