@@ -86,7 +86,7 @@ RSpec::Matchers.define :be_faster_than do |other|
 end
 
 RSpec::Matchers.define :be_as_fast_as do |other|
-  margin = 1.1
+  margin = 1.2
 
   match do |subject|
     subject.time < (other.time * margin)
