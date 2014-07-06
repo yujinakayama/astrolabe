@@ -30,6 +30,7 @@ class Benchmarking
     return @time if @time
 
     self.class.loop_count.times { run } if self.class.warm_up?
+    GC.start # https://github.com/ruby/ruby/blob/v2_1_2/lib/benchmark.rb#L265
 
     beginning = Time.now
     self.class.loop_count.times { run }
