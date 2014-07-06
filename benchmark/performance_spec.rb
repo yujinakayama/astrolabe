@@ -65,6 +65,8 @@ describe 'performance' do
       let(:nested_yield) do
         node_class = Class.new(Astrolabe::Node) do
           def each_descendant
+            return to_enum(__method__) unless block_given?
+
             each_child_node do |child_node|
               yield child_node
               child_node.each_descendant { |node| yield node }
@@ -78,6 +80,8 @@ describe 'performance' do
       let(:block_pass) do
         node_class = Class.new(Astrolabe::Node) do
           def each_descendant(&block)
+            return to_enum(__method__) unless block_given?
+
             each_child_node do |child_node|
               yield child_node
               child_node.each_descendant(&block)
@@ -92,6 +96,8 @@ describe 'performance' do
         node_class = Class.new(Astrolabe::Node) do
           # Yeah, this is ugly interface, but just for reference.
           def each_descendant(proc_object = nil, &block)
+            return to_enum(__method__) if !block_given? && !proc_object
+
             proc_object ||= block
 
             each_child_node do |child_node|
@@ -123,11 +129,15 @@ describe 'performance' do
       let(:inline_code) do
         node_class = Class.new(Astrolabe::Node) do
           def each_descendant(&block)
+            return to_enum(__method__) unless block_given?
+
             children.each do |child|
               next unless child.is_a?(self.class)
               yield child
               child.each_descendant(&block)
             end
+
+            self
           end
         end
 
@@ -137,6 +147,8 @@ describe 'performance' do
       let(:delegation) do
         node_class = Class.new(Astrolabe::Node) do
           def each_descendant(&block)
+            return to_enum(__method__) unless block_given?
+
             each_child_node do |child_node|
               yield child_node
               child_node.each_descendant(&block)
@@ -162,11 +174,15 @@ describe 'performance' do
       let(:array_each) do
         node_class = Class.new(Astrolabe::Node) do
           def each_descendant(&block)
+            return to_enum(__method__) unless block_given?
+
             children.each do |child|
               next unless child.is_a?(self.class)
               yield child
               child.each_descendant(&block)
             end
+
+            self
           end
         end
 
@@ -176,11 +192,15 @@ describe 'performance' do
       let(:for_loop) do
         node_class = Class.new(Astrolabe::Node) do
           def each_descendant(&block)
+            return to_enum(__method__) unless block_given?
+
             for child in children # rubocop:disable For
               next unless child.is_a?(self.class)
               yield child
               child.each_descendant(&block)
             end
+
+            self
           end
         end
 
