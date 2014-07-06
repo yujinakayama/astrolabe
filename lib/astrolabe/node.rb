@@ -131,7 +131,8 @@ module Astrolabe
       return to_enum(__method__) unless block_given?
       types.flatten!
       yield self if types.empty? || types.include?(type)
-      each_descendant(*types, &block)
+      visit_descendants(types, &block)
+      self
     end
 
     protected
