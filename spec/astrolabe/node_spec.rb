@@ -52,6 +52,26 @@ module Astrolabe
       end
     end
 
+    shared_examples 'node enumerator' do |method_name|
+      context 'when no block is given' do
+        it 'returns an enumerator' do
+          expect(target_node.send(method_name)).to be_a Enumerator
+        end
+
+        describe 'the returned enumerator' do
+          subject(:enumerator) { target_node.send(method_name) }
+
+          it 'enumerates ancestor nodes' do
+            expected_types.each do |expected_type|
+              expect(enumerator.next.type).to eq(expected_type)
+            end
+
+            expect { enumerator.next }.to raise_error(StopIteration)
+          end
+        end
+      end
+    end
+
     describe '#each_ancestor' do
       let(:source) { <<-END }
         class SomeClass
@@ -94,23 +114,7 @@ module Astrolabe
         end
       end
 
-      context 'when no block is given' do
-        it 'returns an enumerator' do
-          expect(target_node.each_ancestor).to be_a Enumerator
-        end
-
-        describe 'the returned enumerator' do
-          subject(:enumerator) { target_node.each_ancestor }
-
-          it 'enumerates ancestor nodes' do
-            expected_types.each do |expected_type|
-              expect(enumerator.next.type).to eq(expected_type)
-            end
-
-            expect { enumerator.next }.to raise_error(StopIteration)
-          end
-        end
-      end
+      include_examples 'node enumerator', :each_ancestor
     end
 
     describe '#each_child_node' do
@@ -146,23 +150,7 @@ module Astrolabe
         end
       end
 
-      context 'when no block is given' do
-        it 'returns an enumerator' do
-          expect(target_node.each_child_node).to be_a(Enumerator)
-        end
-
-        describe 'the returned enumerator' do
-          subject(:enumerator) { target_node.each_child_node }
-
-          it 'enumerates the child nodes' do
-            expected_types.each do |expected_type|
-              expect(enumerator.next.type).to eq(expected_type)
-            end
-
-            expect { enumerator.next }.to raise_error(StopIteration)
-          end
-        end
-      end
+      include_examples 'node enumerator', :each_child_node
     end
 
     describe '#each_descendant' do
@@ -207,23 +195,7 @@ module Astrolabe
         end
       end
 
-      context 'when no block is given' do
-        it 'returns an enumerator' do
-          expect(target_node.each_descendant).to be_a(Enumerator)
-        end
-
-        describe 'the returned enumerator' do
-          subject(:enumerator) { target_node.each_descendant }
-
-          it 'enumerates the descendant nodes' do
-            expected_types.each do |expected_type|
-              expect(enumerator.next.type).to eq(expected_type)
-            end
-
-            expect { enumerator.next }.to raise_error(StopIteration)
-          end
-        end
-      end
+      include_examples 'node enumerator', :each_descendant
     end
 
     describe '#each_node' do
@@ -268,23 +240,7 @@ module Astrolabe
         end
       end
 
-      context 'when no block is given' do
-        it 'returns an enumerator' do
-          expect(target_node.each_node).to be_a(Enumerator)
-        end
-
-        describe 'the returned enumerator' do
-          subject(:enumerator) { target_node.each_node }
-
-          it 'enumerates the origin and the descendant nodes' do
-            expected_types.each do |expected_type|
-              expect(enumerator.next.type).to eq(expected_type)
-            end
-
-            expect { enumerator.next }.to raise_error(StopIteration)
-          end
-        end
-      end
+      include_examples 'node enumerator', :each_node
     end
 
     describe '#send_type?' do
