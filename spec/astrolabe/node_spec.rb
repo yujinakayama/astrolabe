@@ -68,6 +68,23 @@ module Astrolabe
 
             expect { enumerator.next }.to raise_error(StopIteration)
           end
+
+          context 'when a node type symbol is passed' do
+            subject(:enumerator) { target_node.send(method_name, :send) }
+
+            it 'enumerates only nodes matching the type' do
+              count = 0
+
+              begin
+                loop do
+                  expect(enumerator.next.type).to eq(:send)
+                  count += 1
+                end
+              rescue StopIteration
+                expect(count).to be > 0
+              end
+            end
+          end
         end
       end
     end

@@ -82,7 +82,7 @@ module Astrolabe
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
     def each_ancestor(*types)
-      return to_enum(__method__) unless block_given?
+      return to_enum(__method__, *types) unless block_given?
 
       types.flatten!
       last_node = self
@@ -117,7 +117,7 @@ module Astrolabe
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
     def each_child_node(*types)
-      return to_enum(__method__) unless block_given?
+      return to_enum(__method__, *types) unless block_given?
 
       types.flatten!
 
@@ -148,7 +148,7 @@ module Astrolabe
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
     def each_descendant(*types, &block)
-      return to_enum(__method__) unless block_given?
+      return to_enum(__method__, *types) unless block_given?
       types.flatten!
       visit_descendants(types, &block)
       self
@@ -176,7 +176,7 @@ module Astrolabe
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
     def each_node(*types, &block)
-      return to_enum(__method__) unless block_given?
+      return to_enum(__method__, *types) unless block_given?
       types.flatten!
       yield self if types.empty? || types.include?(type)
       visit_descendants(types, &block)
