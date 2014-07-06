@@ -90,6 +90,7 @@ if ENV['TRAVIS']
 
   SimpleCov.start do
     add_filter '/spec/'
+    add_filter '/benchmark/'
     add_filter '/vendor/'
   end
 end
