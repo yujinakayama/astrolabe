@@ -278,8 +278,8 @@ describe 'performance' do
         EachAncestorBenchmark.new('recursion', ast_with_node_class(node_class))
       end
 
-      specify 'while-loop is obviously (at least twice) faster than recursion' do
-        expect(while_loop).to be_faster_than(recursion).twice
+      specify 'while-loop is faster than recursion' do
+        expect(while_loop).to be_faster_than(recursion)
       end
 
       describe 'current implementation' do
