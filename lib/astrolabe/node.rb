@@ -110,13 +110,7 @@ module Astrolabe
     # @return [Enumerator] if no block is given
     def each_descendant(&block)
       return to_enum(__method__) unless block_given?
-
-      children.each do |child|
-        next unless child.is_a?(Node)
-        yield child
-        child.each_descendant(&block)
-      end
-
+      visit_descendants(&block)
       self
     end
 
@@ -133,6 +127,16 @@ module Astrolabe
       return to_enum(__method__) unless block_given?
       yield self
       each_descendant(&block)
+    end
+
+    protected
+
+    def visit_descendants(&block)
+      children.each do |child|
+        next unless child.is_a?(Node)
+        yield child
+        child.visit_descendants(&block)
+      end
     end
   end
 end

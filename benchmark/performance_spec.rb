@@ -217,6 +217,56 @@ describe 'performance' do
         end
       end
     end
+
+    describe 'pure recursion vs. combination of entry and recursion methods' do
+      let(:pure_recursion) do
+        node_class = Class.new(Astrolabe::Node) do
+          def each_descendant(&block)
+            return to_enum(__method__) unless block_given?
+
+            children.each do |child|
+              next unless child.is_a?(self.class)
+              yield child
+              child.each_descendant(&block)
+            end
+
+            self
+          end
+        end
+
+        EachDescendantBenchmark.new('pure recursion', ast_with_node_class(node_class))
+      end
+
+      let(:combination) do
+        node_class = Class.new(Astrolabe::Node) do
+          def each_descendant(&block)
+            return to_enum(__method__) unless block_given?
+            visit_descendants(&block)
+            self
+          end
+
+          def visit_descendants(&block)
+            children.each do |child|
+              next unless child.is_a?(self.class)
+              yield child
+              child.visit_descendants(&block)
+            end
+          end
+        end
+
+        EachDescendantBenchmark.new('combination', ast_with_node_class(node_class))
+      end
+
+      specify 'combination is faster than pure recursion' do
+        expect(combination).to be_faster_than(pure_recursion)
+      end
+
+      describe 'current implementation' do
+        it 'is as fast as combination' do
+          expect(current_implementation).to be_as_fast_as(combination)
+        end
+      end
+    end
   end
 
   describe 'Node#each_ancestor' do
