@@ -90,18 +90,33 @@ if you don't need to track context of AST.
 
 ```ruby
 # Iterate ancestor nodes in the order from parent to root.
-node.each_ancestor do |ancestor_node|
-  p ancestor_node
-end
+node.each_ancestor { |ancestor_node| ... }
 
 # This is different from `node.children.each { |child| ... }`
 # which yields all children including non-node element.
-node.each_child_node do |child_node|
-  p child_node
-end
+node.each_child_node { |child_node| ... }
 
-# Collect all lvar nodes under the receiver node.
-lvar_nodes = node.each_descendant.select(&:lvar_type?)
+# These iteration methods can be chained by Enumerable methods.
+# Find the first lvar node under the receiver node.
+lvar_node = node.each_descendant.find(&:lvar_type?)
+
+# Iterate the receiver node itself and the descendant nodes.
+# This would be useful when you treat the receiver node as a root of tree
+# and want to iterate all nodes in the tree.
+ast.each_node { |node| ... }
+
+# Yield only specific type nodes.
+ast.each_node(:send) { |send_node| ... }
+# This is equivalent to:
+ast.each_node.select(&:send_type?).each { |send_node| ... }
+
+# Yield only nodes matching any of the types.
+ast.each_node(:send, :block) { |send_or_block_node| ... }
+ast.each_node([:send, :block]) { |send_or_block_node| ... }
+# These are equivalent to:
+ast.each_node
+  .select { |node| [:send, :block].include?(node.type) }
+  .each { |send_or_block_node| ... }
 ```
 
 ## Compatibility

@@ -16,8 +16,8 @@ module Astrolabe
   #   # Non-word characters (other than a-zA-Z0-9_) in type names are omitted.
   #   node.defined_type? # Equivalent to: `node.type == :defined?`
   #
-  #   # Collect all lvar nodes under the receiver node.
-  #   lvar_nodes = node.each_descendant.select(&:lvar_type?)
+  #   # Find the first lvar node under the receiver node.
+  #   lvar_node = node.each_descendant.find(&:lvar_type?)
   class Node < Parser::AST::Node
     # @see http://rubydoc.info/gems/ast/AST/Node:initialize
     def initialize(type, children = [], properties = {})
@@ -66,6 +66,18 @@ module Astrolabe
     # Calls the given block for each ancestor node in the order from parent to root.
     # If no block is given, an `Enumerator` is returned.
     #
+    # @overload each_ancestor
+    #   Yield all nodes.
+    # @overload each_ancestor(type)
+    #   Yield only nodes matching the type.
+    #   @param [Symbol] type a node type
+    # @overload each_ancestor(type_a, type_b, ...)
+    #   Yield only nodes matching any of the types.
+    #   @param [Symbol] type_a a node type
+    #   @param [Symbol] type_b a node type
+    # @overload each_ancestor(types)
+    #   Yield only nodes matching any of types in the array.
+    #   @param [Array<Symbol>] types an array containing node types
     # @yieldparam [Node] node each ancestor node
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
@@ -89,6 +101,18 @@ module Astrolabe
     # Note that this is different from `node.children.each { |child| ... }` which yields all
     # children including non-node element.
     #
+    # @overload each_child_node
+    #   Yield all nodes.
+    # @overload each_child_node(type)
+    #   Yield only nodes matching the type.
+    #   @param [Symbol] type a node type
+    # @overload each_child_node(type_a, type_b, ...)
+    #   Yield only nodes matching any of the types.
+    #   @param [Symbol] type_a a node type
+    #   @param [Symbol] type_b a node type
+    # @overload each_child_node(types)
+    #   Yield only nodes matching any of types in the array.
+    #   @param [Array<Symbol>] types an array containing node types
     # @yieldparam [Node] node each child node
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
@@ -108,6 +132,18 @@ module Astrolabe
     # Calls the given block for each descendant node with depth first order.
     # If no block is given, an `Enumerator` is returned.
     #
+    # @overload each_descendant
+    #   Yield all nodes.
+    # @overload each_descendant(type)
+    #   Yield only nodes matching the type.
+    #   @param [Symbol] type a node type
+    # @overload each_descendant(type_a, type_b, ...)
+    #   Yield only nodes matching any of the types.
+    #   @param [Symbol] type_a a node type
+    #   @param [Symbol] type_b a node type
+    # @overload each_descendant(types)
+    #   Yield only nodes matching any of types in the array.
+    #   @param [Array<Symbol>] types an array containing node types
     # @yieldparam [Node] node each descendant node
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
@@ -124,6 +160,18 @@ module Astrolabe
     # This method would be useful when you treat the receiver node as a root of tree and want to
     # iterate all nodes in the tree.
     #
+    # @overload each_node
+    #   Yield all nodes.
+    # @overload each_node(type)
+    #   Yield only nodes matching the type.
+    #   @param [Symbol] type a node type
+    # @overload each_node(type_a, type_b, ...)
+    #   Yield only nodes matching any of the types.
+    #   @param [Symbol] type_a a node type
+    #   @param [Symbol] type_b a node type
+    # @overload each_node(types)
+    #   Yield only nodes matching any of types in the array.
+    #   @param [Array<Symbol>] types an array containing node types
     # @yieldparam [Node] node each node
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
