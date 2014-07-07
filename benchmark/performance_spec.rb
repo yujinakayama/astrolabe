@@ -113,8 +113,8 @@ describe 'performance' do
         EachDescendantBenchmark.new('proc-pass', ast_with_node_class(node_class))
       end
 
-      specify 'block-pass is obviously (at least 5 times) faster than nested-yield' do
-        expect(block_pass).to be_faster_than(nested_yield).at_least(5).times
+      specify 'block-pass is obviously (at least 4 times) faster than nested-yield' do
+        expect(block_pass).to be_faster_than(nested_yield).at_least(4).times
       end
 
       specify 'block-pass is a bit faster than proc-pass' do
