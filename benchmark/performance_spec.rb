@@ -114,7 +114,7 @@ describe 'performance' do
       end
 
       specify 'block-pass is obviously (at least 5 times) faster than nested-yield' do
-        expect(block_pass).to be_faster_than(nested_yield).five_times
+        expect(block_pass).to be_faster_than(nested_yield).at_least(5).times
       end
 
       specify 'block-pass is a bit faster than proc-pass' do

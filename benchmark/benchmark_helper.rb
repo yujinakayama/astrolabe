@@ -59,17 +59,12 @@ RSpec::Matchers.define :be_faster_than do |other|
     end
   end
 
-  {
-          twice: 2,
-    three_times: 3,
-     four_times: 4,
-     five_times: 5,
-      six_times: 6,
-    seven_times: 7
-  }.each do |name, value|
-    chain name do
-      @times = value
-    end
+  chain :at_least do |times|
+    @times = times
+  end
+
+  # Just a syntax sugar.
+  chain :times do
   end
 
   failure_message do |subject|
