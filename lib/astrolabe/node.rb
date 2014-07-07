@@ -81,15 +81,15 @@ module Astrolabe
     # @yieldparam [Node] node each ancestor node
     # @return [self] if a block is given
     # @return [Enumerator] if no block is given
-    def each_ancestor(*types)
+    def each_ancestor(*types, &block)
       return to_enum(__method__, *types) unless block_given?
 
       types.flatten!
-      last_node = self
 
-      while (current_node = last_node.parent)
-        yield current_node if types.empty? || types.include?(current_node.type)
-        last_node = current_node
+      if types.empty?
+        visit_ancestors(&block)
+      else
+        visit_ancestors_with_types(types, &block)
       end
 
       self
@@ -149,8 +149,15 @@ module Astrolabe
     # @return [Enumerator] if no block is given
     def each_descendant(*types, &block)
       return to_enum(__method__, *types) unless block_given?
+
       types.flatten!
-      visit_descendants(types, &block)
+
+      if types.empty?
+        visit_descendants(&block)
+      else
+        visit_descendants_with_types(types, &block)
+      end
+
       self
     end
 
@@ -177,19 +184,55 @@ module Astrolabe
     # @return [Enumerator] if no block is given
     def each_node(*types, &block)
       return to_enum(__method__, *types) unless block_given?
+
       types.flatten!
+
       yield self if types.empty? || types.include?(type)
-      visit_descendants(types, &block)
+
+      if types.empty?
+        visit_descendants(&block)
+      else
+        visit_descendants_with_types(types, &block)
+      end
+
       self
     end
 
     protected
 
-    def visit_descendants(types, &block)
+    def visit_descendants(&block)
       children.each do |child|
         next unless child.is_a?(Node)
-        yield child if types.empty? || types.include?(child.type)
-        child.visit_descendants(types, &block)
+        yield child
+        child.visit_descendants(&block)
+      end
+    end
+
+    def visit_descendants_with_types(types, &block)
+      children.each do |child|
+        next unless child.is_a?(Node)
+        yield child if types.include?(child.type)
+        child.visit_descendants_with_types(types, &block)
+      end
+    end
+
+    private
+
+    def visit_ancestors
+      last_node = self
+
+      while (current_node = last_node.parent)
+        yield current_node
+        last_node = current_node
+      end
+    end
+
+    def visit_ancestors_with_types(types)
+      last_node = self
+
+      while (current_node = last_node.parent)
+        yield current_node if types.include?(current_node.type)
+        last_node = current_node
       end
     end
   end
