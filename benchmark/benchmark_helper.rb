@@ -4,10 +4,14 @@ class Benchmarking
   class << self
     attr_accessor :warm_up
     alias_method :warm_up?, :warm_up
-    attr_writer :loop_count
+    attr_writer :trial_count, :loop_count_in_trial
 
-    def loop_count
-      @loop_count ||= 100
+    def trial_count
+      @trial_count ||= 3
+    end
+
+    def loop_count_in_trial
+      @loop_count_in_trial ||= 100
     end
 
     def pretty_time(time)
@@ -22,25 +26,19 @@ class Benchmarking
     @process = block
   end
 
-  def run
-    @process.call
+  def average_time
+    measure if times.empty?
+    times.reduce(:+) / self.class.trial_count
   end
 
-  def time
-    return @time if @time
-
-    self.class.loop_count.times { run } if self.class.warm_up?
-    GC.start # https://github.com/ruby/ruby/blob/v2_1_2/lib/benchmark.rb#L265
-
-    beginning = Time.now
-    self.class.loop_count.times { run }
-    ending = Time.now
-
-    @time = ending - beginning
-  end
+  alias_method :time, :average_time
 
   def pretty_time
     self.class.pretty_time(time)
+  end
+
+  def times
+    @times ||= []
   end
 
   def inspect
@@ -48,6 +46,28 @@ class Benchmarking
   end
 
   alias_method :to_s, :inspect
+
+  private
+
+  def measure
+    fail 'Already measured!' unless times.empty?
+
+    self.class.loop_count.times { run } if self.class.warm_up?
+
+    self.class.trial_count.times do
+      GC.start # https://github.com/ruby/ruby/blob/v2_1_2/lib/benchmark.rb#L265
+
+      beginning = Time.now
+      self.class.loop_count_in_trial.times { run }
+      ending = Time.now
+
+      times << (ending - beginning)
+    end
+  end
+
+  def run
+    @process.call
+  end
 end
 
 RSpec::Matchers.define :be_faster_than do |other|
