@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(/^spec\//)
   spec.require_paths = ['lib']
 
-  spec.add_runtime_dependency 'parser', '>= 2.1', '< 3.0'
+  spec.add_runtime_dependency 'parser', '>= 2.2.0.pre.3', '< 3.0'
 
   spec.add_development_dependency 'bundler',       '~> 1.6'
   spec.add_development_dependency 'rake',          '~> 10.3'
