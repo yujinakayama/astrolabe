@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.version       = Astrolabe::Version.to_s
   spec.authors       = ['Yuji Nakayama']
   spec.email         = ['nkymyj@gmail.com']
-  spec.summary       = 'Object-oriented AST library for Parser'
+  spec.summary       = 'An object-oriented AST extension for Parser'
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/yujinakayama/astrolabe'
   spec.license       = 'MIT'
