@@ -27,3 +27,7 @@ AlignHash:
   #   a:  0
   #   bb: 1
   EnforcedColonStyle: separator
+
+RegexpLiteral:
+  Exclude:
+    - Guardfile
