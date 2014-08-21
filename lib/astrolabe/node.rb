@@ -95,6 +95,14 @@ module Astrolabe
       self
     end
 
+    # Returns an array of ancestor nodes.
+    # This is a shorthand for `node.each_ancestor.to_a`.
+    #
+    # @return [Array<Node>] an array of ancestor nodes
+    def ancestors
+      each_ancestor.to_a
+    end
+
     # Calls the given block for each child node.
     # If no block is given, an `Enumerator` is returned.
     #
@@ -129,6 +137,14 @@ module Astrolabe
       self
     end
 
+    # Returns an array of child nodes.
+    # This is a shorthand for `node.each_child_node.to_a`.
+    #
+    # @return [Array<Node>] an array of child nodes
+    def child_nodes
+      each_child_node.to_a
+    end
+
     # Calls the given block for each descendant node with depth first order.
     # If no block is given, an `Enumerator` is returned.
     #
@@ -159,6 +175,14 @@ module Astrolabe
       end
 
       self
+    end
+
+    # Returns an array of descendant nodes.
+    # This is a shorthand for `node.each_descendant.to_a`.
+    #
+    # @return [Array<Node>] an array of descendant nodes
+    def descendants
+      each_descendant.to_a
     end
 
     # Calls the given block for the receiver and each descendant node with depth first order.
