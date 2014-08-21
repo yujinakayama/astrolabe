@@ -2,6 +2,9 @@
 LineLength:
   Max: 100
 
+ClassLength:
+  Max: 103
+
 AlignHash:
   # Alignment of entries using hash rocket as separator. Valid values are:
   #
