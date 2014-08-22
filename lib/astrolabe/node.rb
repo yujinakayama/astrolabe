@@ -63,6 +63,13 @@ module Astrolabe
       parent.nil?
     end
 
+    # Returns the index of the receiver node in its siblings.
+    #
+    # @return [Integer] the index of the receiver node in its siblings
+    def sibling_index
+      parent.children.index { |sibling| sibling.equal?(self) }
+    end
+
     # Calls the given block for each ancestor node in the order from parent to root.
     # If no block is given, an `Enumerator` is returned.
     #

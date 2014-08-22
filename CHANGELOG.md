@@ -2,6 +2,8 @@
 
 ## Development
 
+* Add `Node#sibling_index`.
+
 ## v1.2.1
 
 * Re-release 1.2.0 due to an error in `rubygems.org`.

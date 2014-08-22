@@ -52,6 +52,50 @@ module Astrolabe
       end
     end
 
+    describe '#sibling_index' do
+      let(:source) { <<-END }
+        2.times do |index|
+          puts index
+        end
+      END
+
+      # (block
+      #   (send
+      #     (int 2) :times)
+      #   (args
+      #     (arg :index))
+      #   (send nil :puts
+      #     (lvar :index)))
+
+      let(:target_node) { root_node.each_node.find(&:args_type?) }
+
+      it 'returns the index of the receiver node in its siblings' do
+        expect(target_node.sibling_index).to eq(1)
+      end
+
+      context 'when there are same structure nodes in the siblings' do
+        let(:source) { <<-END }
+          foo = 1
+          puts foo
+          puts foo
+        END
+
+        # (begin
+        #   (lvasgn :foo
+        #     (int 1))
+        #   (send nil :puts
+        #     (lvar :foo))
+        #   (send nil :puts
+        #     (lvar :foo)))
+
+        let(:target_node) { root_node.each_node(:send).to_a.last }
+
+        it 'does not confuse them' do
+          expect(target_node.sibling_index).to eq(2)
+        end
+      end
+    end
+
     shared_examples 'node enumerator' do |method_name|
       context 'when no block is given' do
         it 'returns an enumerator' do
