@@ -2,6 +2,8 @@
 
 ## Development
 
+## v1.3.0
+
 * Add `Node#sibling_index`.
 
 ## v1.2.1
