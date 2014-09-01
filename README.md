@@ -119,6 +119,11 @@ ast.each_node
   .each { |send_or_block_node| ... }
 ```
 
+## Projects using Astrolabe
+
+* [RuboCop](https://github.com/bbatsov/rubocop)
+* [Transpec](https://github.com/yujinakayama/transpec)
+
 ## Compatibility
 
 Tested on MRI 1.9, 2.0, 2.1, JRuby in 1.9 mode and Rubinius 2.0+.
