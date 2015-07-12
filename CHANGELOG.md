@@ -2,6 +2,8 @@
 
 ## Development
 
+* Stop allowing pre-release versions of Parser.
+
 ## v1.3.0
 
 * Add `Node#sibling_index`.
