@@ -3,3 +3,6 @@ inherit_from: ../.rubocop.yml
 
 Documentation:
   Enabled: false
+
+ModuleLength:
+  Enabled: false
