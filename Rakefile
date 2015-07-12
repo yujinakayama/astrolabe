@@ -4,12 +4,15 @@ require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 
-RSpec::Core::RakeTask.new(:spec)
+RSpec::Core::RakeTask.new(:spec) do |task|
+  task.verbose = false
+end
 
 desc 'Run benchmark specs'
 RSpec::Core::RakeTask.new(:benchmark) do |task|
   task.pattern = 'benchmark/**/*_spec.rb'
   task.rspec_opts = '--format documentation'
+  task.verbose = false
 end
 
 RuboCop::RakeTask.new(:style)
