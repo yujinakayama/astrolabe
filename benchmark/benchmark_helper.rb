@@ -91,7 +91,7 @@ RSpec::Matchers.define :be_faster_than do |other|
     other_label = other.name
     other_label << " / #{@times}" if @times
 
-    label_width = [subject.name, other_label].map { |label| label.length }.max
+    label_width = [subject.name, other_label].map(&:length).max
 
     message = "#{subject.name.rjust(label_width)}: #{subject.pretty_time}\n"
 
