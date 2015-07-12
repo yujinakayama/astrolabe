@@ -2,6 +2,8 @@
 
 ## Development
 
+## v1.3.1
+
 * Stop allowing pre-release versions of Parser.
 
 ## v1.3.0
