@@ -30,13 +30,13 @@ You can generate an AST that consists of `Astrolabe::Node` by using `Astrolabe::
 require 'astrolabe/builder'
 require 'parser/current'
 
-buffer = Parser::Source::Buffer.new('(string)')
-buffer.source = 'puts :foo'
+source_buffer = Parser::Source::Buffer.new('(string)')
+source_buffer.source = 'puts :foo'
 
-builder = Astrolabe::Builder.new
-parser = Parser::CurrentRuby.new(builder)
+ast_builder = Astrolabe::Builder.new
+parser = Parser::CurrentRuby.new(ast_builder)
 
-root_node = parser.parse(buffer)
+root_node = parser.parse(source_buffer)
 root_node.class # => Astrolabe::Node
 ```
 
