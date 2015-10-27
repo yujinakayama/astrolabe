@@ -43,6 +43,14 @@ module Astrolabe
       end
     end
 
+    # Returns `true` if this node is an assignment (including local variable assignment,
+    # instance variable assignment, and so on). Otherwise, returns `false`.
+    #
+    # @return [Boolean] whether the receiver is an assignment or not
+    def assignment_type?
+      [:op_asgn, :lvasgn, :casgn, :cvasgn, :gvasgn, :ivasgn, :masgn].include?(type)
+    end
+
     # Returns the parent node, or `nil` if the receiver is a root node.
     #
     # @return [Node, nil] the parent node or `nil`
