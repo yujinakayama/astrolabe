@@ -126,7 +126,7 @@ ast.each_node
 
 ## Compatibility
 
-Tested on MRI 1.9, 2.0, 2.1, JRuby in 1.9 mode and Rubinius 2.0+.
+Tested on MRI 1.9, 2.0, 2.1, 2.2, 2.3, JRuby in 1.9 mode.
 
 ## License
 
