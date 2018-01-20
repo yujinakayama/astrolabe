@@ -1,8 +1,8 @@
-[![Gem Version](http://img.shields.io/gem/v/astrolabe.svg)](http://badge.fury.io/rb/astrolabe)
-[![Dependency Status](http://img.shields.io/gemnasium/yujinakayama/astrolabe.svg)](https://gemnasium.com/yujinakayama/astrolabe)
-[![Build Status](https://travis-ci.org/yujinakayama/astrolabe.svg?branch=master)](https://travis-ci.org/yujinakayama/astrolabe)
-[![Coverage Status](http://img.shields.io/coveralls/yujinakayama/astrolabe/master.svg)](https://coveralls.io/r/yujinakayama/astrolabe)
-[![Code Climate](http://img.shields.io/codeclimate/github/yujinakayama/astrolabe.svg)](https://codeclimate.com/github/yujinakayama/astrolabe)
+[![Gem Version](https://badge.fury.io/rb/astrolabe.svg)](http://badge.fury.io/rb/astrolabe)
+[![Dependency Status](https://gemnasium.com/yujinakayama/astrolabe.svg)](https://gemnasium.com/yujinakayama/astrolabe)
+[![Build Status](https://travis-ci.org/yujinakayama/astrolabe.svg?branch=master&style=flat)](https://travis-ci.org/yujinakayama/astrolabe)
+[![Coverage Status](https://coveralls.io/repos/yujinakayama/astrolabe/badge.svg?branch=master&service=github)](https://coveralls.io/github/yujinakayama/astrolabe?branch=master)
+[![Code Climate](https://codeclimate.com/github/yujinakayama/astrolabe/badges/gpa.svg)](https://codeclimate.com/github/yujinakayama/astrolabe)
 
 # Astrolabe
 
