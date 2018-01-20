@@ -4,8 +4,8 @@ require 'parser/current'
 
 describe 'performance' do
   Benchmarking.warm_up = true
-  Benchmarking.trial_count = 3
-  Benchmarking.loop_count_in_trial = 1000
+  Benchmarking.trial_count = 5
+  Benchmarking.loop_count_in_trial = 10_000
 
   def generate_source(max, current_nest_level = 1)
     <<-END
