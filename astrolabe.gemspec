@@ -1,5 +1,3 @@
-# coding: utf-8
-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'astrolabe/version'
@@ -22,13 +20,13 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'parser', '~> 2.2'
 
   spec.add_development_dependency 'bundler',       '~> 1.6'
-  spec.add_development_dependency 'rake',          '~> 10.3'
-  spec.add_development_dependency 'yard',          '~> 0.8'
-  spec.add_development_dependency 'rspec',         '~> 3.0'
   spec.add_development_dependency 'fuubar',        '~> 2.0.0.rc1'
-  spec.add_development_dependency 'simplecov',     '~> 0.7'
-  spec.add_development_dependency 'rubocop',       '~> 0.24'
   spec.add_development_dependency 'guard-rspec',   '>= 4.2.3', '< 5.0'
   spec.add_development_dependency 'guard-rubocop', '~> 1.0'
+  spec.add_development_dependency 'rake',          '~> 10.3'
+  spec.add_development_dependency 'rspec',         '~> 3.0'
+  spec.add_development_dependency 'rubocop',       '~> 0.52'
   spec.add_development_dependency 'ruby_gntp',     '~> 0.3'
+  spec.add_development_dependency 'simplecov',     '~> 0.7'
+  spec.add_development_dependency 'yard',          '~> 0.8'
 end

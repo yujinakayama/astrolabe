@@ -1,11 +1,18 @@
+Metrics/BlockLength:
+  Exclude:
+    - 'benchmark/**/*'
+    - 'spec/**/*'
 
-LineLength:
-  Max: 100
-
-ClassLength:
+Metrics/ClassLength:
   Max: 150
 
-AlignHash:
+Metrics/LineLength:
+  Max: 100
+
+Naming/HeredocDelimiterNaming:
+  Enabled: false
+
+Layout/AlignHash:
   # Alignment of entries using hash rocket as separator. Valid values are:
   #
   # key - left alignment of keys
@@ -31,6 +38,6 @@ AlignHash:
   #   bb: 1
   EnforcedColonStyle: separator
 
-RegexpLiteral:
+Style/RegexpLiteral:
   Exclude:
     - Guardfile

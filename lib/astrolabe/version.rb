@@ -1,5 +1,3 @@
-# coding: utf-8
-
 module Astrolabe
   # @api private
   # http://semver.org/

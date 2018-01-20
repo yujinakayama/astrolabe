@@ -1,9 +1,7 @@
-# coding: utf-8
-
 class Benchmarking
   class << self
     attr_accessor :warm_up
-    alias_method :warm_up?, :warm_up
+    alias warm_up? warm_up
     attr_writer :trial_count, :loop_count_in_trial
 
     def trial_count
@@ -31,7 +29,7 @@ class Benchmarking
     times.reduce(:+) / self.class.trial_count
   end
 
-  alias_method :time, :average_time
+  alias time average_time
 
   def pretty_time
     self.class.pretty_time(time)
@@ -45,12 +43,12 @@ class Benchmarking
     "#{name} (#{pretty_time})"
   end
 
-  alias_method :to_s, :inspect
+  alias to_s inspect
 
   private
 
   def measure
-    fail 'Already measured!' unless times.empty?
+    raise 'Already measured!' unless times.empty?
 
     self.class.loop_count.times { run } if self.class.warm_up?
 

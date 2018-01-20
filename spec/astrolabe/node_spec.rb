@@ -1,5 +1,3 @@
-# coding: utf-8
-
 require 'astrolabe/node'
 
 module Astrolabe
@@ -156,7 +154,7 @@ module Astrolabe
       #       (send nil :do_something))))
 
       let(:target_node) { root_node.each_node.find(&:args_type?) }
-      let(:expected_types) { [:def, :begin, :class] }
+      let(:expected_types) { %i[def begin class] }
 
       context 'when a block is given' do
         it 'yields each ancestor node in order from parent to root' do
@@ -194,7 +192,7 @@ module Astrolabe
               yielded_types << node.type
             end
 
-            expect(yielded_types).to eq([:def, :begin])
+            expect(yielded_types).to eq(%i[def begin])
           end
         end
 
@@ -202,11 +200,11 @@ module Astrolabe
           it 'scans all the ancestor nodes but yields only nodes matching any of the types' do
             yielded_types = []
 
-            target_node.each_ancestor([:begin, :def]) do |node|
+            target_node.each_ancestor(%i[begin def]) do |node|
               yielded_types << node.type
             end
 
-            expect(yielded_types).to eq([:def, :begin])
+            expect(yielded_types).to eq(%i[def begin])
           end
         end
       end
@@ -228,7 +226,7 @@ module Astrolabe
       #   (send nil :do_something))
 
       let(:target_node) { root_node.each_node.find(&:def_type?) }
-      let(:expected_types) { [:args, :send] }
+      let(:expected_types) { %i[args send] }
 
       context 'when a block is given' do
         it 'yields each child node' do
@@ -266,7 +264,7 @@ module Astrolabe
               yielded_types << node.type
             end
 
-            expect(yielded_types).to eq([:args, :send])
+            expect(yielded_types).to eq(%i[args send])
           end
         end
 
@@ -274,11 +272,11 @@ module Astrolabe
           it 'scans all the child nodes but yields only nodes matching any of the types' do
             yielded_types = []
 
-            target_node.each_child_node([:send, :args]) do |node|
+            target_node.each_child_node(%i[send args]) do |node|
               yielded_types << node.type
             end
 
-            expect(yielded_types).to eq([:args, :send])
+            expect(yielded_types).to eq(%i[args send])
           end
         end
       end
@@ -309,7 +307,7 @@ module Astrolabe
       #       (send nil :do_something))))
 
       let(:target_node) { root_node }
-      let(:expected_types) { [:const, :begin, :send, :sym, :def, :args, :arg, :arg, :send] }
+      let(:expected_types) { %i[const begin send sym def args arg arg send] }
 
       context 'when a block is given' do
         it 'yields each descendant node with depth first order' do
@@ -335,7 +333,7 @@ module Astrolabe
               yielded_types << node.type
             end
 
-            expect(yielded_types).to eq([:send, :send])
+            expect(yielded_types).to eq(%i[send send])
           end
         end
 
@@ -347,7 +345,7 @@ module Astrolabe
               yielded_types << node.type
             end
 
-            expect(yielded_types).to eq([:send, :def, :send])
+            expect(yielded_types).to eq(%i[send def send])
           end
         end
 
@@ -355,11 +353,11 @@ module Astrolabe
           it 'scans all the descendant nodes but yields only nodes matching any of the types' do
             yielded_types = []
 
-            target_node.each_descendant([:send, :def]) do |node|
+            target_node.each_descendant(%i[send def]) do |node|
               yielded_types << node.type
             end
 
-            expect(yielded_types).to eq([:send, :def, :send])
+            expect(yielded_types).to eq(%i[send def send])
           end
         end
       end
@@ -390,7 +388,7 @@ module Astrolabe
       #       (send nil :do_something))))
 
       let(:target_node) { root_node }
-      let(:expected_types) { [:class, :const, :begin, :send, :sym, :def, :args, :arg, :arg, :send] }
+      let(:expected_types) { %i[class const begin send sym def args arg arg send] }
 
       context 'when a block is given' do
         it 'yields the node itself and each descendant node with depth first order' do
@@ -416,7 +414,7 @@ module Astrolabe
               yielded_types << node.type
             end
 
-            expect(yielded_types).to eq([:send, :send])
+            expect(yielded_types).to eq(%i[send send])
           end
         end
 
@@ -428,7 +426,7 @@ module Astrolabe
               yielded_types << node.type
             end
 
-            expect(yielded_types).to eq([:send, :def, :send])
+            expect(yielded_types).to eq(%i[send def send])
           end
         end
 
@@ -436,11 +434,11 @@ module Astrolabe
           it 'scans all the nodes but yields only nodes matching any of the types' do
             yielded_types = []
 
-            target_node.each_node([:send, :def]) do |node|
+            target_node.each_node(%i[send def]) do |node|
               yielded_types << node.type
             end
 
-            expect(yielded_types).to eq([:send, :def, :send])
+            expect(yielded_types).to eq(%i[send def send])
           end
         end
       end

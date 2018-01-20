@@ -1,5 +1,3 @@
-# coding: utf-8
-
 require_relative 'benchmark_helper'
 require 'astrolabe/node'
 require 'parser/current'
@@ -54,7 +52,7 @@ describe 'performance' do
           count += 1
         end
 
-        fail if count == 0
+        raise if count.zero?
       end
     end
 
@@ -287,7 +285,7 @@ describe 'performance' do
           count += 1
         end
 
-        fail if count == 0
+        raise if count.zero?
       end
     end
 
