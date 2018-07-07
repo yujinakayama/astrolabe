@@ -94,6 +94,68 @@ module Astrolabe
       end
     end
 
+    describe '#assignment_type?' do
+      context 'for a local variable assignment' do
+        let(:source) { 'a = 1' }
+        it('returns true') { expect(root_node.assignment_type?).to be true }
+      end
+
+      context 'for an instance variable assignment' do
+        let(:source) { '@a = 1' }
+        it('returns true') { expect(root_node.assignment_type?).to be true }
+      end
+
+      context 'for a class variable assignment' do
+        let(:source) { '@@a = 1' }
+        it('returns true') { expect(root_node.assignment_type?).to be true }
+      end
+
+      context 'for a constant assignment' do
+        let(:source) { 'A = 1' }
+        it('returns true') { expect(root_node.assignment_type?).to be true }
+      end
+
+      context 'for a global variable assignment' do
+        let(:source) { '$a = 1' }
+        it('returns true') { expect(root_node.assignment_type?).to be true }
+      end
+
+      context 'for a parallel assignment without splat' do
+        let(:source) { 'a, b = 1, 2' }
+        it('returns true') { expect(root_node.assignment_type?).to be true }
+      end
+
+      context 'for a parallel assignment with splat' do
+        let(:source) { 'a, *b = array' }
+        it('returns true') { expect(root_node.assignment_type?).to be true }
+      end
+
+      context 'for an increment operation' do
+        let(:source) { 'a += 1' }
+        it('returns true') { expect(root_node.assignment_type?).to be true }
+      end
+
+      context 'for an decrement operation' do
+        let(:source) { 'a -= 1' }
+        it('returns true') { expect(root_node.assignment_type?).to be true }
+      end
+
+      context 'for a method call' do
+        let(:source) { 'puts(1, 2)' }
+        it('returns false') { expect(root_node.assignment_type?).to be false }
+      end
+
+      context 'for a method definition' do
+        let(:source) { 'def method(_); 1; end' }
+        it('returns false') { expect(root_node.assignment_type?).to be false }
+      end
+
+      context 'for a conditional statement' do
+        let(:source) { 'if a == b; a = 1; end' }
+        it('returns false') { expect(root_node.assignment_type?).to be false }
+      end
+    end
+
     shared_examples 'node enumerator' do |method_name|
       context 'when no block is given' do
         it 'returns an enumerator' do
