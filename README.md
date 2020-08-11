@@ -121,7 +121,6 @@ ast.each_node
 
 ## Projects using Astrolabe
 
-* [RuboCop](https://github.com/bbatsov/rubocop)
 * [Transpec](https://github.com/yujinakayama/transpec)
 
 ## Compatibility
